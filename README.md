@@ -23,7 +23,8 @@ In the Roll20 chat, type the following `!script {{ }}`
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-TODO: Add image
+
+![screenshot of Scriptcards rolling an attack and displaying the roll](images/tutorial1/step3-1_attackroll.png)
 
 ### Let's Add a Custom Title
 
@@ -34,7 +35,8 @@ TODO: Add image
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-TODO: Add image
+
+![screenshot of Scriptcards with a custom title](images/tutorial1/step3-2_attackroll_title.png)
 
 ### Let's Add a Description
 
@@ -46,7 +48,8 @@ TODO: Add image
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-TODO: Add image
+
+![screenshot of Scriptcards with a description via emoteText setting](images/tutorial1/step3-3_attackroll_desc.png)
 
 ### Let's Add the Token's Picture to the Description
 
