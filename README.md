@@ -10,7 +10,7 @@ TODO: Add links to installation tutorials
 ## Step 2: Check ScriptCards is running
 
 In the Roll20 chat, type the following `!script {{ }}`
-TODO: Add image
+[Screenshot of step showing ScriptCards installation test](images/tutorial1/step2_example.png)
 
 ## Step 3: Your First ScriptCard
 
