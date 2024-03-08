@@ -5,7 +5,9 @@ This is intended to be a tutorial for Roll20 Pro subscribers looking to automate
 ## Step 1: Installation
 
 The easiest way to install ScriptCards is via the 1Click Mod installation method.
-TODO: Add links to installation tutorials
+
+[Roll20 Mod installation Documentation](https://help.roll20.net/hc/en-us/articles/360037256714-Roll20-Mods-API#API-HowdoIinstallanAPIscriptusingtheone-clickscriptlibrary?)
+[Nick Olivo YouTube video showing API installation](https://www.youtube.com/watch?v=jam2yx8btaQ)
 
 ## Step 2: Check ScriptCards is running
 
