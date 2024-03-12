@@ -6,7 +6,7 @@ ScriptCards is game system agnostic. While the first tutorial uses a D&D 5e shee
 
 ## Tutorials
 
-[Your first ScriptCard](tutorial1.md)
+* Tutorial 1 - [Your first ScriptCard](tutorial1.md)
 
 More Tutorials To Come.
 
