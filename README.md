@@ -118,7 +118,7 @@ Let's add a new attacker token
 ![screenshot of Scriptcards output with new attacker](images/tutorial1/step3-7_attackroll_nothardcoded1.png)
 ![screenshot of Scriptcards output with new attacker showing different modifiers in the roll](images/tutorial1/step3-7_attackroll_nothardcoded2.png)
 
-### Let's Make the AC Stand-out
+### Let's Add the Target's Armor Class
 
 ```text
 !scriptcard {{
