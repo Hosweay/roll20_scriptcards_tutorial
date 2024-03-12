@@ -78,7 +78,7 @@ In the Roll20 chat, type the following `!script {{ }}`
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-TODO: Add image
+![screenshot of Scriptcards output using the attacker attributes](images/tutorial1/step3-5_attackroll_strength_mod.png)
 
 ### Let's Add a Target for the Attack
 
