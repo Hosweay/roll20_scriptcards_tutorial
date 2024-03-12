@@ -64,7 +64,8 @@ In the Roll20 chat, type the following `!script {{ }}`
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-TODO: Add image
+![screenshot of the attacker token](images/tutorial1/attacker_token.png)
+![screenshot of Scriptcards with the selected token](images/tutorial1/step3-4_attackroll_sourceToken.png)
 
 ### Let's Add the Attacker's Attributes
 
