@@ -2,6 +2,8 @@
 
 This is intended to be a tutorial for Roll20 Pro subscribers looking to automate aspects of their games with the very versatile ScriptCards Mod
 
+ScriptCards is game system agnostic. While the first tutorial uses a D&D 5e sheet for example, there is nothing D&D specific to ScriptCards. Other tutorials may use other game systems and character sheets.
+
 ## Tutorials
 
 [Your first ScriptCard](tutorial1.md)
