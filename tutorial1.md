@@ -370,4 +370,156 @@ We then display that the attack was a CRITICAL in the output and display the tot
 
 Finally we jump to the `--:Done|` label to exit the script.
 
+### Let's Apply Damage to the Target
+
+```text
+!scriptcard {{
+    --#sourceToken|@{selected|token_id}
+    --#targetToken|@{target|token_id}
+    --#title|Attack Roll
+    --#emoteText|[*S:character_name] Attacks [*T:t-name]
+    --=AttackRoll|1d20 + [*S:strength_mod] [STR] + [*S:pb] [PROF]
+    --+Attack Roll Result|[$AttackRoll] vs Armor Class [roll][*T:t-bar2_value][/roll]
+    --?[$AttackRoll.Base] -eq 20|CriticalHit
+    --?[$AttackRoll] -ge [*T:t-bar2_value]|Hit|Miss
+
+    --:Done|
+    --X|
+    --:CriticalHit|
+        --=DamageRoll|1d8 + [*S:strength_mod] [STR]
+        --=CriticalDamage|1d8
+        --=TotalDamage|[$DamageRoll] + [$CriticalDamage] [CRIT]
+        --+CRITICAL|[*S:character_name]'s attack is a critical hit on [*T:t-name] for [$TotalDamage] damage
+        -->ApplyDamageToToken|[*T:t-id];[$TotalDamage]
+    --^Done|
+    --:Hit|
+        --=DamageRoll|1d8 + [*S:strength_mod] [STR]
+        --+HIT|The [*S:character_name]'s attack hits [*T:t-name] for [$DamageRoll] damage
+        -->ApplyDamageToToken|[*T:t-id];[$DamageRoll]
+    --^Done|
+    --:Miss|
+        --+MISS|The [*S:character_name]'s attack misses [*T:t-name]
+    --^Done|
+    --:ApplyDamageToToken|TokenID;DamageToApply
+        --!t:[%1%]|bar1_value:-=[%2%]
+    --<|
+}}
+```
+
+![screenshot of target token with its hit points adjusted](images/tutorial1/target_token_taking_damage.png)
+![screenshot of Scriptcards output](images/tutorial1/step3-13_attackroll_apply_damage.png)
+
+#### Step 3-13 Explanation
+
+Now that we know whether the attack hits, misses, or critical hits, we can take the next step to apply the damage rolled to the target token.
+
+We could add [Object Modification](https://wiki.roll20.net/Script:ScriptCards#Object_Modification_.28--.21.29) using `--!` to both Hit and CriticalHit branches but since the steps are the same, we'll add a new code branch named `--:ApplyDamageToToken|`
+
+You may notice that after the pipe character for `--:ApplyDamageToToken|` there is `TokenID;DamageToApply` these are not used by ScriptCards. These are added to help document what the parameters that get passed into ApplyDamageToToken represent.
+
+In both CriticalHit and Hit branches we add a [Procedure Call](https://wiki.roll20.net/Script:ScriptCards#Call_Procedure_.28--.3E.29) using `-->LABELNAME|PARAMETER1;PARAMETER2` syntax.
+
+In both CriticalHit and Hit we pass in the target's token id with the object attribute reference `[*T:t-id]` and then we pass in the damage rolled in each branch. In the case of CriticalHit it is the TotalDamage roll variable and in the case of Hit it's the DamageRoll roll variable.
+
+ScriptCards will then jump to the ApplyDamageToToken branch and start processing.
+
+Here we use ScriptCard's [Object Modification](https://wiki.roll20.net/Script:ScriptCards#Object_Modification_.28--.21.29) which uses syntax like `--!<objectType>:<objectId>|[setting:value]|[setting:value]|[setting:value]...` to make modifications.
+
+ScriptCards provides some shortcuts for object types in some cases, in this case `t` for token. So `--!t` means modify the token.
+
+When you use a procedure call, following the pipe character you can pass in parameters to use in that code branch. In this case we pass in 2 parameters separated by a semi-colon `;`
+
+Inside that procedure the first parameter is accessed by `[%1%]` and the second parameter is accessed by `[%2%]
+
+So in our case `--!t:[%1%]|` will tell ScriptCards that we want to modify properties for the token with the TokenID we passed in as the first parameter.
+
+After the pipe character, we list the properties and attributes we want to modify. In this case `bar1_value`
+
+with ScriptCards modification if you want to set a value, you would use the syntax of property name `bar1_value`, colon `:`, and value to set the property.
+
+ScriptCards will allow you increment or decrement values with syntax of `:+=` and `:-=` respectively. In our case we want to decrement bar1_value by the damage rolled and passed in as the second parameter `bar1_value:-=[%2%]`
+
+Finally, when you use `-->` to call a procedure you can return to the code branch that called the procedure with the [Return](https://wiki.roll20.net/Script:ScriptCards#Return_.28--.3C.29) syntax `--<|`
+
+### Let's Make it Easier to Change
+
+```text
+!scriptcard {{
+    --/|VARIABLES TO SET
+    --&HPBar|1
+    --&DamageDieSize|1d8
+
+    --#sourceToken|@{selected|token_id}
+    --#targetToken|@{target|token_id}
+    --#title|Attack Roll
+    --#emoteText|[*S:character_name] Attacks [*T:t-name]
+    --=AttackRoll|1d20 + [*S:strength_mod] [STR] + [*S:pb] [PROF]
+    --+Attack Roll Result|[$AttackRoll] vs Armor Class [roll][*T:t-bar2_value][/roll]
+    --?[$AttackRoll.Base] -eq 20|CriticalHit
+    --?[$AttackRoll] -ge [*T:t-bar2_value]|Hit|Miss
+
+    --:Done|
+    --X|
+    --:CriticalHit|
+        --=DamageRoll|[&DamageDieSize] + [*S:strength_mod] [STR]
+        --=CriticalDamage|[&DamageDieSize]
+        --=TotalDamage|[$DamageRoll] + [$CriticalDamage] [CRIT]
+        --+CRITICAL|[*S:character_name]'s attack is a critical hit on [*T:t-name] for [$TotalDamage] damage
+        -->ApplyDamageToToken|[*T:t-id];[$TotalDamage]
+    --^Done|
+    --:Hit|
+        --=DamageRoll|[&DamageDieSize] + [*S:strength_mod] [STR]
+        --+HIT|The [*S:character_name]'s attack hits [*T:t-name] for [$DamageRoll] damage
+        -->ApplyDamageToToken|[*T:t-id];[$DamageRoll]
+    --^Done|
+    --:Miss|
+        --+MISS|The [*S:character_name]'s attack misses [*T:t-name]
+    --^Done|
+    --:ApplyDamageToToken|TokenID;DamageToApply
+        --!t:[%1%]|bar[&HPBar]_value:-=[%2%]
+    --<|
+}}
+```
+
+#### Step 3-14 Explanation
+
+Step 3-14 uses some [String variables](https://wiki.roll20.net/Script:ScriptCards#String_Variable_Assignment_.28--.26.29) to make some configuration settings at the top of the script.
+
+We add a [Comment](https://wiki.roll20.net/Script:ScriptCards#Comment_.28--.2F.29) using `--/|`.
+
+ScriptCards will ignore comment lines starting with `--/|` but they can be handy to explain and document portions of the code for others to use and also for your future self when you haven't looked at it in months and months.
+
+We add 2 String variables `--&HPBar|` and `--&DamageDieSize|`
+
+While I have my token's hit points mapped to bar 1, other game runners may map to bar 2 or bar 3. This will allow a new game to adjust that HPBar easily right at the top of the script.
+
+Then in the `--:ApplyDamageToToken|` branch we change `bar1_value` to use the String variable `bar[&HPBar]_value` and ScriptCards will substitute the value of that String variable in when it runs.
+
+The other String variable we add is `--&DamageDieSize|` and we set that value to `1d8` We then replace 1d8 in the DamageRoll roll variables in both CriticalHit and Hit and also the 1d8 in the CriticalDamage roll variable
+
+ScriptCards will then substitue 1d8 in those roll variables in place of `[&DamageDieSize]`
+
+This will allow us to change the damage die rolled in 1 location near the top of the script instead of having to change in multiple locations throughout the ScriptCard
+
 ## Recap and References
+
+In this first tutorial we have gone from installing ScriptCards and running `!script {{ }}` to test that it is running ok, to building a ScriptCard capable of chosing a target for an attack, rolling the attack using the selected token's attributes to modify the roll, comparing the results of the attack roll to the target's armor class and checking for a critical hit, hit, or miss. On a hit, rolls damage and automatically modify the target's token to subtract the damage roll.
+
+And this is just the start of what ScriptCards is capable of and subsequent tutorials will go through more language features and how to use them to improve, automate, and streamline your Roll20 games.
+
+### Language Features Used
+
+* [Roll variable](https://wiki.roll20.net/Script:ScriptCards#Roll_Variable_Assignment_.28--.3D.29) - Used for rolls. `--=Name|value` to set and `[$Name]` to reference
+* [Direct output](https://wiki.roll20.net/Script:ScriptCards#Direct_Output_.28--.2B.29) - Used to display information in the Roll20 chat
+* [ScriptCard Parameter](https://wiki.roll20.net/Script:ScriptCards#Set_Parameter_.28--.23.29) - Sets ScriptCards parameters with `--#` for things like `--#title|`, `--#emoteText|`, `--#sourceToken|`, and `--#targetToken|`
+* [Object Attribute Referencing](https://wiki.roll20.net/Script:ScriptCards#Object_Attribute_Referencing) - allows the use of getting an objects attributes and properties with syntax like `[*S:ATTRIBUTENAME]` for source tokens and `[*T:ATTRIBUTENAME]` for target tokens
+* [Roll variable flavor text](https://wiki.roll20.net/Script:ScriptCards#Adding_Flavor_Text_to_Rolls) - allows adding descriptive text to Roll variables for hover using `[TEXT]`
+* [Inline Formatting](https://wiki.roll20.net/Script:ScriptCards#Inline_Formatting) - adding formatting options to the output to make things appear like rolls with `[roll]...[/roll]` or center `[c]...[/c]` or bold `[b]...[/b]` or many other formatting options
+* [Conditional statement](https://wiki.roll20.net/Script:ScriptCards#Conditional_Statement_.28--.3F.29) - conditionals allow runtime decisions based on whether the condtion is true or false `--?"[&VARIABLE]" -eq "test"|TRUE|FALSE`
+* [Label](https://wiki.roll20.net/Script:ScriptCards#Branch_Label_.28--:.29) - labels to name code branches `--:LABELNAME|` which allows ScriptCards to move around to different branches. Useful with conditional statements
+* [Branch](https://wiki.roll20.net/Script:ScriptCards#Branch_.28--.5E.29) - Goto a specific code branch. Useful when you know after a certain section of code runs, you should go to a specific new section of code.
+* The Exit statement `--X|` - tells ScriptCards to stop processing at that point.
+* [Roll Modifier](https://wiki.roll20.net/Script:ScriptCards#Roll_Modifiers) - Roll modifiers are useful to check different aspects of a Roll variable. One use is to check the rolled total of die `[$ROLLVARIABLE.Base]` without any of the additional modifications to the roll
+* [Object Modification](https://wiki.roll20.net/Script:ScriptCards#Object_Modification_.28--.21.29) - Object modification allows ScriptCards quite a lot of control over all the [Roll20 Objects](https://help.roll20.net/hc/en-us/articles/360037772793-API-Objects).
+* [Comment](https://wiki.roll20.net/Script:ScriptCards#Comment_.28--.2F.29) - ScriptCards ignored line to help document and describe for users and maintainers
+* [String variables](https://wiki.roll20.net/Script:ScriptCards#String_Variable_Assignment_.28--.26.29) - A variable stored and referenced using `--&` allowing strings to be stored for use throughout a ScriptCard. Helps make code portable, more easily modified, and less prone to errors in forgetting to update one section.
