@@ -38,6 +38,16 @@ Seeing the output above will show that your game's API sandbox is running and Sc
 
 #### Step 3-1 Explanation
 
+ScriptCards statements all begin with a double dash. In this example, we use `--=` to declare a [Roll variable](https://wiki.roll20.net/Script:ScriptCards#Roll_Variable_Assignment_.28--.3D.29)
+
+When declaring a roll variable the name of the variable goes before the pipe character `|` and the contents of the variable go after the pipe. In this example, we named the roll variable AttackRoll and rolled 1d20.
+
+The next line we use [direct output](https://wiki.roll20.net/Script:ScriptCards#Direct_Output_.28--.2B.29) to output a message to chat using `--+`.
+
+In direct output, things to the left of the pipe character are bolded. The remaining output to the right of the line is not bolded by default.
+
+In this example Attack Roll Result is bolded and the result of the roll variable name AttackRoll is added to the output using `[$ROLL_VARIABLE_NAME]`
+
 ### Let's Add a Custom Title
 
 ```text
@@ -51,6 +61,8 @@ Seeing the output above will show that your game's API sandbox is running and Sc
 ![screenshot of Scriptcards with a custom title](images/tutorial1/step3-2_attackroll_title.png)
 
 #### Step 3-2 Explanation
+
+The new line is this ScriptCard uses `--#` to set a [ScriptCard Parameter](https://wiki.roll20.net/Script:ScriptCards#Set_Parameter_.28--.23.29) to add a custom and more descriptive title to the ScriptCard.
 
 ### Let's Add a Description
 
@@ -66,6 +78,8 @@ Seeing the output above will show that your game's API sandbox is running and Sc
 ![screenshot of Scriptcards with a description via emoteText setting](images/tutorial1/step3-3_attackroll_desc.png)
 
 #### Step 3-3 Explanation
+
+The new line in step 3-3 adds another ScriptCards parameter, emoteText, to give some more custom description to the ScriptCard.
 
 ### Let's Add the Token's Picture to the Description
 
@@ -88,6 +102,14 @@ If you see the following Roll20 errror, it often means you have @{selected} with
 
 #### Step 3-4 Explanation
 
+The new line in step3-4 adds another ScriptCards parameter to set the sourceToken to the currently selected token.
+
+Roll20 processes all attribute @{} references, ability call %{} references, and roll queries ?{} before sending the results to ScriptCards.
+
+In this example, by the time ScriptCards processes output the line `--#sourceToken|@{selected|token_id}` will appear like `--#sourceToken|-20CharacterTOKENID` with Roll20 processing @{} before passing output to ScriptCards.
+
+For this example, sourceToken places the token image in the ScriptCards output. We'll explore other benefits to setting sourceToken later in this tutorial.
+
 ### Let's Add the Attacker's Attributes
 
 ```text
@@ -102,6 +124,14 @@ If you see the following Roll20 errror, it often means you have @{selected} with
 ![screenshot of Scriptcards output using the attacker attributes](images/tutorial1/step3-5_attackroll_strength_mod.png)
 
 #### Step 3-5 Explanation
+
+In step3-5 we modify the AttackRoll roll variable to add the attacker's strength_mod character attribute and the attacker's pb character attribute.
+
+With a sourceToken set, ScriptCards will allow [Object Attribute Referencing](https://wiki.roll20.net/Script:ScriptCards#Object_Attribute_Referencing) using `[*S:ATTRIBUTE]` syntax.
+
+When a Roll variable is directly output, you can hover over the roll output to see the results of the roll and the modifications to the roll.
+
+`[STR]` and `[PROF]` are [Roll variable flavor text](https://wiki.roll20.net/Script:ScriptCards#Adding_Flavor_Text_to_Rolls) to help make hover output more descriptive and clearer.
 
 ### Let's Add a Target for the Attack
 
@@ -121,6 +151,16 @@ Let's add a new token for our character to attack.
 ![screenshot of Scriptcards output when selecting a target token](images/tutorial1/step3-6_attackroll_target.png)
 
 #### Step 3-6 Explanation
+
+Step3-6 adds a new ScriptCards parameter `--#targetToken` and uses Roll20's targetting system.
+
+As before all @{} references are processed before ScriptCards so @{target} lines will always run first.
+
+With targetToken parameter set, ScriptCards will allow object attribute referencing using `[*T:ATTRIBUTE]` syntax.
+
+Additionally with object attribute references for both source and target tokens, you can get [Roll20 Token Properties](https://help.roll20.net/hc/en-us/articles/360037772793-API-Objects#API:Objects-Graphic(Token/Map/Card/Etc.)) with `[*T:t-PROPERTYNAME]`
+
+In this example we add the target's token name to the `--#emoteText` setting with `[*T:t-name]`
 
 ### Let's Make It More Portable
 
@@ -142,6 +182,16 @@ Let's add a new attacker token
 
 #### Step 3-7 Explanation
 
+Up until now, we've had the attacker's name hardcoded into the ScriptCard's emoteText but now that we have sourceToken selected we can change the ScriptCard to get the name of the attacker so we can use the same ScriptCard for different attackers.
+
+We change the `--#emoteText` setting to use the sourceToken's character_name attribute with `[*S:character_name]`
+
+This will allow the same ScriptCard for each attacker and all sourceToken references get updated depending on the selected token.
+
+In the output you can see that Fighter attacker has different character_name, strength_mod, and pb attributes than the Barbarian attacker.
+
+These references allow your ScriptCards to be more flexible and portable than if you had to hardcode values.
+
 ### Let's Add the Target's Armor Class
 
 ```text
@@ -158,6 +208,10 @@ Let's add a new attacker token
 
 #### Step 3-8 Explanation
 
+Step 3-8 modifies the output line `--+` to display the attack target's Armor Class. In this case, it will use the value in the target token's bar2 value `[*T:t-bar2_value]`
+
+You see that token properties are references with the `:t-` prefix. Without that `:t-` prefix, ScriptCards will look for character attributes.
+
 ### Let's Make the AC Stand-out
 
 ```text
@@ -173,6 +227,10 @@ Let's add a new attacker token
 ![screenshot of Scriptcards output when displaying target AC](images/tutorial1/step3-9_attackroll_ac_format.png)
 
 #### Step 3-9 Explanation
+
+Step3-9 adds a some [Inline Formatting](https://wiki.roll20.net/Script:ScriptCards#Inline_Formatting) to make the target's AC value stand out more in the output using the `[roll]...[/roll]` syntax.
+
+Direct output allows for many formatting options to make your ScriptCards output more customizable to your visual needs.
 
 ### Let's See if the Attack Hits
 
@@ -200,6 +258,28 @@ Let's add a new attacker token
 
 #### Step 3-10 Explanation
 
+So up until now, we've grabbed attributes and properties and displayed them but Step 3-10 is where ScriptCards separates itself from Roll20 macros.
+
+Step 3-10 uses the `--?` [Conditional statement](https://wiki.roll20.net/Script:ScriptCards#Conditional_Statement_.28--.3F.29) to compare the total of the AttackRoll roll variable to the target's AC.
+
+In the above example, ScriptCards checks to see if the AttackRoll is greater than or equal to the target's AC. If that is true, ScriptCards will jump output to the label named Hit. If not true, ScriptCards will jump to the label named Miss.
+
+ScriptCards conditionals are in the form of `--? CONDITION TO CHECK | WHAT TO DO IF TRUE | WHAT TO DO IF FALSE`.
+
+ScriptCards has the ability to add a [Label](https://wiki.roll20.net/Script:ScriptCards#Branch_Label_.28--:.29) using `--:`
+
+In this example we have added 3 branch labels, `--:Done|`, `--:Hit|`, and `--:Miss|`
+
+The conditional statement's default is to GOTO a branch. So in this case after the conditional line `--?` we end up in either `--:Hit|` or `--:Miss|` Depending.
+
+Each of those sections will output the result of the attack roll and then jump to the `--:Done|` label using `--^` syntax to [Branch](https://wiki.roll20.net/Script:ScriptCards#Branch_.28--.5E.29).
+
+The final new item in this step is the Exit Script `--X|` statement which means ScriptCards will stop processing when it hits that code.
+
+Note that with conditional branching we were able to jump to code labels below the exit `--X|` and then jump back above the exit when finished.
+
+Conditionals and Code Branches make ScriptCards incredibly versatile and powerful.
+
 ### Let's Add Damage to Hits
 
 ```text
@@ -226,6 +306,12 @@ Let's add a new attacker token
 ![screenshot of Scriptcards output with damage roll on hits](images/tutorial1/step3-11_attackroll_damage.png)
 
 #### Step 3-11 Explanation
+
+Step 3-11 adds a new Roll variable named DamageRoll to the Hit code branch.
+
+DamageRoll is currently hardcoded to roll a 1d8 and add the attacker's strength_mod attribute to it.
+
+The Hit branch's direct output line then adds the DamageRoll to its output.
 
 ### Let's Check for Critical Hits
 
@@ -261,5 +347,19 @@ Let's add a new attacker token
 ![screenshot of Scriptcards when attack rolls a natural 20 showing additional damage roll](images/tutorial1/step3-12_attackroll_crit2.png)
 
 #### Step 3-12 Explanation
+
+Step 3-12 adds a new conditional check and a new code branch label to check for and process critical hits on rolls of a natural 20.
+
+The new conditional statement `--?[$AttackRoll.Base] -eq 20|CriticalHit` uses a [Roll Modifier](https://wiki.roll20.net/Script:ScriptCards#Roll_Modifiers) to the AttackRoll roll variable.
+
+`.Base` will ouput only the dice rolls for the roll variable. In this case the result of 1d20 without any of the static modifiers. So if the `.Base` result of AttackRoll is 20, then AttackRoll was a natural 20 and thus an automatic hit and a critical hit.
+
+If `.Base` is not equal to 20, there is no ELSE or FALSE part of this conditional so ScriptCards will move on to the next statement.
+
+If `.Base` is equal to 20, then we jump the code label `--:CriticalHit|` where we have 3 roll variables. The normal DamageRoll that we have in the Hit label, CriticalDamage roll variable, and then add those together in the TotalDamage roll variable.
+
+We then display that the attack was a CRITICAL in the output and display the total damage rolled by the DamageRoll and CriticalDamage.
+
+Finally we jump to the `--:Done|` label to exit the script.
 
 ## Recap and References
