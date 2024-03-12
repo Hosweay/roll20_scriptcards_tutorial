@@ -67,6 +67,9 @@ In the Roll20 chat, type the following `!script {{ }}`
 ![screenshot of the attacker token](images/tutorial1/attacker_token.png)
 ![screenshot of Scriptcards with the selected token](images/tutorial1/step3-4_attackroll_sourceToken.png)
 
+Roll20 processes all @{} references before sending the results to ScriptCards. If you see the following Roll20 errror, it often means you have @{selected} without having a token selected.
+![screenshot of Roll20 error when no selected token](images/tutorial1/tutorial1_roll20_error_message.png)
+
 ### Let's Add the Attacker's Attributes
 
 ```text
@@ -92,7 +95,10 @@ In the Roll20 chat, type the following `!script {{ }}`
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-TODO: Add image
+Let's add a new token for our character to attack.
+![screenshot of the target token](images/tutorial1/target_token.png)
+![screenshot of attacker and target tokens](images/tutorial1/tutorial1_attacker_target.png)
+![screenshot of Scriptcards output when selecting a target token](images/tutorial1/step3-6_attackroll_target.png)
 
 ### Let's Make It More Portable
 
@@ -106,8 +112,25 @@ TODO: Add image
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-TODO: Add image
-TODO: Add image2
+Let's add a new attacker token
+![screenshot of new attacker token](images/tutorial1/tutorial1_new_attacker.png)
+![screenshot of both attacker tokens and target token](images/tutorial1/tutorial1_all_tokens.png)
+![screenshot of Scriptcards output with new attacker](images/tutorial1/step3-7_attackroll_nothardcoded1.png)
+![screenshot of Scriptcards output with new attacker showing different modifiers in the roll](images/tutorial1/step3-7_attackroll_nothardcoded2.png)
+
+### Let's Make the AC Stand-out
+
+```text
+!scriptcard {{
+    --#sourceToken|@{selected|token_id}
+    --#targetToken|@{target|token_id}
+    --#title|Attack Roll
+    --#emoteText|[*S:character_name] Attacks [*T:t-name]
+    --=AttackRoll|1d20 + [*S:strength_mod] [STR] + [*S:pb] [PROF]
+    --+Attack Roll Result|[$AttackRoll] vs Armor Class [*T:t-bar2_value]
+}}
+```
+![screenshot of Scriptcard output with target armor class](images/tutorial1/step3-8_attackroll_target_ac.png)
 
 ### Let's Make the AC Stand-out
 
@@ -121,7 +144,7 @@ TODO: Add image2
     --+Attack Roll Result|[$AttackRoll] vs Armor Class [roll][*T:t-bar2_value][/roll]
 }}
 ```
-TODO: Add image
+![screenshot of Scriptcards output when displaying target AC](images/tutorial1/step3-9_attackroll_ac_format.png)
 
 ### Let's See if the Attack Hits
 
@@ -145,7 +168,7 @@ TODO: Add image
     --^Done|
 }}
 ```
-TODO: Add image
+![screenshot of Scriptcards output checking hit or miss](images/tutorial1/step3-10_attackroll_hitmiss.png)
 
 ### Let's Add Damage to Hits
 
@@ -170,7 +193,7 @@ TODO: Add image
     --^Done|
 }}
 ```
-TODO: Add image
+![screenshot of Scriptcards output with damage roll on hits](images/tutorial1/step3-11_attackroll_damage.png)
 
 ### Let's Check for Critical Hits
 
@@ -202,4 +225,7 @@ TODO: Add image
     --^Done|
 }}
 ```
-TODO: Add image
+![screenshot of Scriptcards when attack rolls a natural 20](images/tutorial1/step3-12_attackroll_crit1.png)
+![screenshot of Scriptcards when attack rolls a natural 20 showing additional damage roll](images/tutorial1/step3-12_attackroll_crit2.png)
+
+## Recap and References
