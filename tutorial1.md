@@ -8,7 +8,9 @@ This tutorial requires a Roll20 game created by someone with a Pro subscription.
 
 While ScriptCards is not game system specific, this first tutorial will use a game created with the D&D 5e Character Sheet by Roll20.
 
-2 Player characters created and linked to tokens. 1 NPC character token dragged from the compendium with its Armor Class linked to token bar2.
+If you would like to follow along, this first tutorial will use a game created with the free module The Master's Vault.
+
+Do not worrry, you do not need to know anything about D&D or this module to learn from this tutorial. Nothing about the game rules will be used. This free module will just provide a common ground from which people can follow along.
 
 ## Step 1: Installation
 
@@ -77,13 +79,13 @@ The new line is this ScriptCard uses `--#` to set a [ScriptCard Parameter](https
 ```text
 !scriptcard {{
     --#title|Attack Roll
-    --#emoteText|Barbarian Attacks
+    --#emoteText|Paladin Attacks
     --=AttackRoll|1d20
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
 
-![screenshot of Scriptcards with a description via emoteText setting](images/tutorial1/step3-3_attackroll_desc.png)
+![screenshot of Scriptcards with a description via emoteText setting](images/tutorial1/step3-3_attackroll_desc_new.png)
 
 #### Step 3-3 Explanation
 
@@ -91,17 +93,20 @@ The new line in step 3-3 adds another ScriptCards parameter, emoteText, to give 
 
 ### Let's Add the Token's Picture to the Description
 
+Let's drag out the Dragonborn Paladin from the Journal onto the page and select the token.
+
 ```text
 !scriptcard {{
     --#sourceToken|@{selected|token_id}
     --#title|Attack Roll
-    --#emoteText|Barbarian Attacks
+    --#emoteText|Paladin Attacks
     --=AttackRoll|1d20
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-![screenshot of the attacker token](images/tutorial1/attacker_token.png)
-![screenshot of Scriptcards with the selected token](images/tutorial1/step3-4_attackroll_sourceToken.png)
+![screenshot of the attacker token](images/tutorial1/attacker_token_new.png)
+
+![screenshot of Scriptcards with the selected token](images/tutorial1/step3-4_attackroll_sourceToken_new.png)
 
 Roll20 processes all @{} references before sending the results to ScriptCards.
 If you see the following Roll20 errror, it often means you have @{selected} without having a token selected.
@@ -124,12 +129,12 @@ For this example, sourceToken places the token image in the ScriptCards output. 
 !scriptcard {{
     --#sourceToken|@{selected|token_id}
     --#title|Attack Roll
-    --#emoteText|Barbarian Attacks
+    --#emoteText|Paladin Attacks
     --=AttackRoll|1d20 + [*S:strength_mod] [STR] + [*S:pb] [PROF]
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
-![screenshot of Scriptcards output using the attacker attributes](images/tutorial1/step3-5_attackroll_strength_mod.png)
+![screenshot of Scriptcards output using the attacker attributes](images/tutorial1/step3-5_attackroll_strength_mod_new.png)
 
 #### Step 3-5 Explanation
 
@@ -143,20 +148,24 @@ When a Roll variable is directly output, you can hover over the roll output to s
 
 ### Let's Add a Target for the Attack
 
+Let's drag out the Kobold from the Journal tab to the page. We'll use the Kobold as the target for the Dragonborn Paladin attacks.
+
 ```text
 !scriptcard {{
     --#sourceToken|@{selected|token_id}
     --#targetToken|@{target|token_id}
     --#title|Attack Roll
-    --#emoteText|Barbarian Attacks [*T:t-name]
+    --#emoteText|Paladin Attacks [*T:t-name]
     --=AttackRoll|1d20 + [*S:strength_mod] [STR] + [*S:pb] [PROF]
     --+Attack Roll Result|[$AttackRoll]
 }}
 ```
 Let's add a new token for our character to attack.
-![screenshot of the target token](images/tutorial1/target_token.png)
-![screenshot of attacker and target tokens](images/tutorial1/tutorial1_attacker_target.png)
-![screenshot of Scriptcards output when selecting a target token](images/tutorial1/step3-6_attackroll_target.png)
+![screenshot of the target token](images/tutorial1/target_token_new.png)
+
+![screenshot of attacker and target tokens](images/tutorial1/tutorial1_attacker_target_new.png)
+
+![screenshot of Scriptcards output when selecting a target token](images/tutorial1/step3-6_attackroll_target_new.png)
 
 #### Step 3-6 Explanation
 
@@ -172,6 +181,8 @@ In this example we add the target's token name to the `--#emoteText` setting wit
 
 ### Let's Make It More Portable
 
+Let's drag out the Dwarf Fighter token from the Journal tab to the page.
+
 ```text
 !scriptcard {{
     --#sourceToken|@{selected|token_id}
@@ -183,10 +194,13 @@ In this example we add the target's token name to the `--#emoteText` setting wit
 }}
 ```
 Let's add a new attacker token
-![screenshot of new attacker token](images/tutorial1/tutorial1_new_attacker.png)
-![screenshot of both attacker tokens and target token](images/tutorial1/tutorial1_all_tokens.png)
-![screenshot of Scriptcards output with new attacker](images/tutorial1/step3-7_attackroll_nothardcoded1.png)
-![screenshot of Scriptcards output with new attacker showing different modifiers in the roll](images/tutorial1/step3-7_attackroll_nothardcoded2.png)
+![screenshot of new attacker token](images/tutorial1/tutorial1_new_attacker_new.png)
+
+![screenshot of both attacker tokens and target token](images/tutorial1/tutorial1_all_tokens_new.png)
+
+![screenshot of Scriptcards output with new attacker](images/tutorial1/step3-7_attackroll_nothardcoded1_new.png)
+
+![screenshot of Scriptcards output with new attacker showing different modifiers in the roll](images/tutorial1/step3-7_attackroll_nothardcoded2_new.png)
 
 #### Step 3-7 Explanation
 
@@ -196,7 +210,7 @@ We change the `--#emoteText` setting to use the sourceToken's character_name att
 
 This will allow the same ScriptCard for each attacker and all sourceToken references get updated depending on the selected token.
 
-In the output you can see that Fighter attacker has different character_name, strength_mod, and pb attributes than the Barbarian attacker.
+In the output you can see that Fighter attacker has different character_name and strength_mod attributes than the Paladin attacker.
 
 These references allow your ScriptCards to be more flexible and portable than if you had to hardcode values.
 
@@ -212,7 +226,7 @@ These references allow your ScriptCards to be more flexible and portable than if
     --+Attack Roll Result|[$AttackRoll] vs Armor Class [*T:t-bar2_value]
 }}
 ```
-![screenshot of Scriptcard output with target armor class](images/tutorial1/step3-8_attackroll_target_ac.png)
+![screenshot of Scriptcard output with target armor class](images/tutorial1/step3-8_attackroll_target_ac_new.png)
 
 #### Step 3-8 Explanation
 
@@ -232,7 +246,7 @@ You see that token properties are references with the `:t-` prefix. Without that
     --+Attack Roll Result|[$AttackRoll] vs Armor Class [roll][*T:t-bar2_value][/roll]
 }}
 ```
-![screenshot of Scriptcards output when displaying target AC](images/tutorial1/step3-9_attackroll_ac_format.png)
+![screenshot of Scriptcards output when displaying target AC](images/tutorial1/step3-9_attackroll_ac_format_new.png)
 
 #### Step 3-9 Explanation
 
@@ -262,7 +276,7 @@ Direct output allows for many formatting options to make your ScriptCards output
     --^Done|
 }}
 ```
-![screenshot of Scriptcards output checking hit or miss](images/tutorial1/step3-10_attackroll_hitmiss.png)
+![screenshot of Scriptcards output checking hit or miss](images/tutorial1/step3-10_attackroll_hitmiss_new.png)
 
 #### Step 3-10 Explanation
 
@@ -311,7 +325,7 @@ Conditionals and Code Branches make ScriptCards incredibly versatile and powerfu
     --^Done|
 }}
 ```
-![screenshot of Scriptcards output with damage roll on hits](images/tutorial1/step3-11_attackroll_damage.png)
+![screenshot of Scriptcards output with damage roll on hits](images/tutorial1/step3-11_attackroll_damage_new.png)
 
 #### Step 3-11 Explanation
 
@@ -351,8 +365,9 @@ The Hit branch's direct output line then adds the DamageRoll to its output.
     --^Done|
 }}
 ```
-![screenshot of Scriptcards when attack rolls a natural 20](images/tutorial1/step3-12_attackroll_crit1.png)
-![screenshot of Scriptcards when attack rolls a natural 20 showing additional damage roll](images/tutorial1/step3-12_attackroll_crit2.png)
+![screenshot of Scriptcards when attack rolls a natural 20](images/tutorial1/step3-12_attackroll_crit1_new.png)
+
+![screenshot of Scriptcards when attack rolls a natural 20 showing additional damage roll](images/tutorial1/step3-12_attackroll_crit2_new.png)
 
 #### Step 3-12 Explanation
 
@@ -371,6 +386,8 @@ We then display that the attack was a CRITICAL in the output and display the tot
 Finally we jump to the `--:Done|` label to exit the script.
 
 ### Let's Apply Damage to the Target
+
+Note that I changed the HP of the Kobold token to 12 from 5 to illustrate this damage modification.
 
 ```text
 !scriptcard {{
@@ -405,9 +422,9 @@ Finally we jump to the `--:Done|` label to exit the script.
     --<|
 }}
 ```
+![screenshot of target token with its hit points adjusted](images/tutorial1/target_token_taking_damage_new.png)
 
-![screenshot of target token with its hit points adjusted](images/tutorial1/target_token_taking_damage.png)
-![screenshot of Scriptcards output](images/tutorial1/step3-13_attackroll_apply_damage.png)
+![screenshot of Scriptcards output](images/tutorial1/step3-13_attackroll_apply_damage_new.png)
 
 #### Step 3-13 Explanation
 
