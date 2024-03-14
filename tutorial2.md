@@ -190,7 +190,7 @@ So let's select the Marine Biologist's token and run the following ScriptCard:
 ```
 ![screenshot of browser inspect of the repeating section](images/tutorial2/tutorial2_step6_inspect.png)
 
-![screenshot of ScriptCards blank output](images/tutorial2/tutorial2_ste6_chat_nothing.png)
+![screenshot of ScriptCards blank output](images/tutorial2/tutorial2_step6_chat_nothing.png)
 
 ![screenshot of API console](images/tutorial2/tutorial2_step6_console.png)
 
