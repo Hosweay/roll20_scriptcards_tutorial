@@ -169,7 +169,7 @@ Roll20 character sheets often have repeating sections for variable information l
 
 In order for us to gather this information with ScriptCards, we need to know the name of the section we are working with.
 
-One way is to find Roll20 documentation of the character sheet but another is to use your browser to inspect the character sheet.
+One way is to find Roll20 documentation of the character sheet but another is to use your [browser to inspect](https://blog.hubspot.com/website/how-to-inspect) the character sheet.
 
 We will open the Marine Biologist's character sheet, right click on Other (Latin) under Languages.
 
