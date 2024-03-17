@@ -8,6 +8,7 @@ ScriptCards is game system agnostic. While the first tutorial uses a D&D 5e shee
 
 * Tutorial 1 - [Your first ScriptCard](tutorial1.md)
 * Tutorial 2 - [Creating a GM Party Report with Arrays, Loops, Repeating Sections, and Built-in Functions](tutorial2.md)
+* Tutorial 3 - [Homebrew Ability with Status Markers, Information Prompts, Libraries, and Moving Tokens](tutorial3.md)
 
 More Tutorials To Come.
 
