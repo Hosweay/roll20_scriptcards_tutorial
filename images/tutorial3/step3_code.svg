@@ -1,0 +1,18 @@
+<svg fill="none" viewBox="0 0 600 300" width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <body xmlns="http://www.w3.org/1999/xhtml">
+      <pre style="background: #d3d3d3"><code>!script {{
+    --&amp;FeatureName|Power Surge
+    <mark style="background: #00dfd1!important">--&amp;ChargeMarker|lightning-helix</mark>
+
+    --#title|[&amp;FeatureName]
+    --#sourceToken|@{selected|token_id}
+    --&amp;PowerPointsInCharge|?{Power Points to Charge|1|2|3|4|5}
+
+    <mark style="background: #00dfd1!important">--!t:[*S:t-id]|statusmarkers:[&amp;ChargeMarker]@[&amp;PowerPointsInCharge]</mark>
+
+    --+Charging|You selected [&amp;PowerPointsInCharge] power points
+}}</code></pre>
+    </body>
+  </foreignObject>
+</svg>
