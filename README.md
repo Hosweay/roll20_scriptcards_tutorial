@@ -12,6 +12,10 @@ ScriptCards is game system agnostic. While the first tutorial uses a D&D 5e shee
 
 More Tutorials To Come.
 
+## Best Practices
+
+* [Recommendations on ScriptCards writing to save you some future frustrations](best_practices.md)
+
 ## Useful Resources
 
 * [ScriptCard wiki](https://wiki.roll20.net/Script:ScriptCards) - List of all ScriptCards options.
