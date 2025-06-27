@@ -1,5 +1,9 @@
 # ScriptCards Best Practices
 
+**Intended Audience:** This is intended for people that have written some amount of ScriptCards before and are familiar with the basic syntax. If you are new to ScriptCards, I recommend starting with the [first tutorial](tutorial1.md) and doing the first and [second tutorial](tutorial2.md) to get familiar with ScriptCards syntax and commonly used features before reading this.
+
+**Overview**
+
 This will be a collection of what I think are some best practices to follow to make your life as a writer of ScriptCards easier. Some of these may be similar to general software development best practices but most are ScriptCards specific. As always, this is just like my opinion, so feel free to ignore any or all of these if you feel like it. Which brings me to the first best practice:
 
 ## If it works how you and your players want, that's it
